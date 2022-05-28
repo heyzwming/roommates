@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdu.roommates.dao.StudentInfoMapper">
+
+    <sql id="selectFields">
+        id, student_id, name, password, sex, stu_type, status, phone, major, room_status, room_id, bed_id, content, location
+    </sql>
+
+    <select id="selectStudentInfo" resultType="StudentInfo">
+        select <include refid="selectFields"></include>
+        from student_info
+        where status != 1
+        <if test="studentId != 0">
+            and student_id = #{studentId}
+        </if>
+        order by student_id desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectById" resultType="StudentInfo">
+        select <include refid="selectFields"></include>
+        from student_info
+        where student_id = #{studentId}
+    </select>
+
+    <select id="selectStudentByName" resultType="StudentInfo">
+        select <include refid="selectFields"></include>
+        from student_info
+        where status != 1
+        and name = #{name}
+        order by student_id desc
+        limit #{offset}, #{limit}
+    </select>
+    
+    <select id="selectTheStudentByName" resultType="StudentInfo">
+        select <include refid="selectFields"></include>
+        from student_info
+        where status != 1
+        and name = #{name}
+    </select>
+
+    <select id="selectStudentByLocation" resultType="StudentInfo">
+        select <include refid="selectFields"></include>
+        from student_info
+        where status != 1
+        and location = #{location}
+        order by student_id desc
+        limit #{offset}, #{limit}
+    </select>
+
+
+    <select id="selectStudentRows" resultType="int">
+        select count(student_id)
+        from student_info
+        where status != 1
+        <if test="studentId!=0">
+            and user_id = #{studentId}
+        </if>
+    </select>
+
+
+
+</mapper>

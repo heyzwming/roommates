@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="com.coder.community.dao.DiscussPostMapper">-->
+<mapper namespace="com.hdu.roommates.dao.RoomPostMapper">
+
+    <!--公用的查询语句-->
+    <sql id="selectFields">
+        id, student_id, title, content, type, create_time
+    </sql>
+
+    <select id="selectRoomPosts" resultType="RoomPost">
+        select <include refid="selectFields"></include>
+        from room_post
+        <if test="studentId != 0">
+        where student_id = #{studentId}
+        </if>
+        order by create_time desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectRoomPostRows" resultType="int">
+        select count(id)
+        from room_post
+        <if test="studentId != 0">
+        where student_id = #{studentId}
+        </if>
+
+    </select>
+
+</mapper>
